@@ -1,0 +1,10 @@
+services:
+  bing_rewards:
+    image: bing_request
+    container_name: bing_request
+    build:
+      context: ../
+      dockerfile: docker/dockerfile
+    volumes:
+      - ../bot.py:/app/bot.py 
+    command: ["python", "bot.py"] 
