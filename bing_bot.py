@@ -4,9 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
-import openai
-import os
-from dotenv import load_dotenv
 
 def validar_existencia (driver, timeout=10):
     try:
@@ -33,25 +30,6 @@ def aceitar_cookies (driver):
     else:
         print('elemento não encontrado')
 
-
-def retornar_lista_de_pesquisa ():
-    load_dotenv()
-    chave = os.getenv("GPT_KEY")
-    
-    prompt = 'Liste 30 ideias de pesquisa e curiosidades de tecnologia e futebol.'
-    openai.api_key = chave
-    
-    response = openai.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.7        
-    )
-    resposta = response.choices[0].message.content
-    print(resposta)
-    return resposta
-
 options = webdriver.EdgeOptions()
 options.add_argument(f"user-data-dir=C:/EdgeSeleniumProfile")
 options.add_argument("profile-directory=Default")
@@ -60,12 +38,40 @@ driver = webdriver.Edge(options=options)
 
 driver.get("https://www.bing.com")
 aceitar_cookies(driver)
-sleep(10)
-try:
-    pesquisas = retornar_lista_de_pesquisa()
-except:
-    pesquisas = ['Globo', 'Cruzeiro', 'Libertadores', 'Iphone', 'Xbox', 'Maior de Minas', 'Times brasileiros no EAFC', 'Selenium Python', 'Data Engeneering', 'Mac OS',
-    'Call of Duty', 'Python Data skills', 'Linguagem de programação', 'Teofilo Otoni', 'Mineirão', 'Cursor', 'Develop with WebDriver', 'GPT', 'Bing AI', 'MVC Pattern']
+sleep(5)
+
+pesquisas = [
+  "Plataformização",
+  "Engajamento",
+  "Identidade esportiva",
+  "Análise tática",
+  "Scouting digital",
+  "Performance atlética",
+  "Preparação neurofísica",
+  "Torcida inteligente",
+  "Geolocalização de fãs",
+  "Estatísticas preditivas",
+  "Gamificação",
+  "Gestão esportiva",
+  "Ativação de marca",
+  "Matchday experience",
+  "Criptoativos esportivos",
+  "Inteligência artificial",
+  "Aprendizado de máquina",
+  "Visão computacional",
+  "Modelagem preditiva",
+  "Sistemas autônomos",
+  "Processamento de linguagem natural",
+  "Internet das Coisas (IoT)",
+  "Análise comportamental",
+  "Engenharia de dados",
+  "Interoperabilidade digital",
+  "Infraestrutura em nuvem",
+  "Blockchain",
+  "Tokenização",
+  "Realidade aumentada",
+  "Cibersegurança"
+]
 
 if pesquisas is not None:
     for nome in pesquisas:
