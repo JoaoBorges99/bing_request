@@ -73,9 +73,11 @@ Este projeto é um bot automatizado em Python que realiza buscas no Bing utiliza
 - Caso tenha probelmas para obter o usuario logado/autenticado, execute os seguintes comandos no terminal:
      1. taskkill /f /im msedge.exe
      2. taskkill /f /im msedgedriver.exe
+
 - Abra o navegador edge e valide em qual pasta está o perfil logado ou que deseja usar, costumam ser **Default**, **Profile 1** ou **Profile 2**
-     3. mkdir C:\EdgeSeleniumProfile
-     4. xcopy /E /I /H "C:\Users\SEU_USUARIO\AppData\Local\Microsoft\Edge\User Data\Profile 1" "C:\EdgeSeleniumProfile\Default"
+     1. mkdir C:\EdgeSeleniumProfile
+     2. xcopy /E /I /H "C:\Users\SEU_USUARIO\AppData\Local\Microsoft\Edge\User Data\Profile 1" "C:\EdgeSeleniumProfile\Default"
+
 Desta forma o usuario fica visivel as bibliotecas é possivel fazer passando o caminho direto sem ter que copiar para uma nova pasta
 
 Sinta-se à vontade para adaptar
