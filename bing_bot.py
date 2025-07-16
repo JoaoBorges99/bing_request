@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
+import logging
 import feedparser
 
 def validar_existencia (driver, timeout=10):
@@ -36,63 +37,71 @@ def get_palavras ():
     titulos = [entry.title for entry in feed.entries]
     return titulos[:30]
 
-options = webdriver.EdgeOptions()
-options.add_argument(f"user-data-dir=C:/EdgeSeleniumProfile")
-options.add_argument("profile-directory=Default")
+def main():
+    try:
+        options = webdriver.EdgeOptions()
+        options.add_argument(f"user-data-dir=C:/EdgeSeleniumProfile")
+        options.add_argument("profile-directory=Default")
 
-list_palavras = get_palavras()
+        list_palavras = get_palavras()
 
-driver = webdriver.Edge(options=options)
+        driver = webdriver.Edge(options=options)
+        driver.get("https://www.bing.com")  
+        
+        # aceitar_cookies(driver)
 
-driver.get("https://www.bing.com")
-aceitar_cookies(driver)
-sleep(5)
+        if not list_palavras:
+            logging.warning('Buscando lista de palavras padrão!')
+            pesquisas = [
+                "Plataformização",
+                "Engajamento",
+                "Identidade esportiva",
+                "Análise tática",
+                "Scouting digital",
+                "Performance atlética",
+                "Preparação neurofísica",
+                "Torcida inteligente",
+                "Geolocalização de fãs",
+                "Estatísticas preditivas",
+                "Gamificação",
+                "Gestão esportiva",
+                "Ativação de marca",
+                "Matchday experience",
+                "Criptoativos esportivos",
+                "Inteligência artificial",
+                "Aprendizado de máquina",
+                "Visão computacional",
+                "Modelagem preditiva",
+                "Sistemas autônomos",
+                "Processamento de linguagem natural",
+                "Internet das Coisas (IoT)",
+                "Análise comportamental",
+                "Engenharia de dados",
+                "Interoperabilidade digital",
+                "Infraestrutura em nuvem",
+                "Blockchain",
+                "Tokenização",
+                "Realidade aumentada",
+                "Cibersegurança"
+            ]
+        else:
+            logging.warning('Buscando headres de noticias!')
+            pesquisas = list_palavras
 
-if not list_palavras:
-    pesquisas = [
-        "Plataformização",
-        "Engajamento",
-        "Identidade esportiva",
-        "Análise tática",
-        "Scouting digital",
-        "Performance atlética",
-        "Preparação neurofísica",
-        "Torcida inteligente",
-        "Geolocalização de fãs",
-        "Estatísticas preditivas",
-        "Gamificação",
-        "Gestão esportiva",
-        "Ativação de marca",
-        "Matchday experience",
-        "Criptoativos esportivos",
-        "Inteligência artificial",
-        "Aprendizado de máquina",
-        "Visão computacional",
-        "Modelagem preditiva",
-        "Sistemas autônomos",
-        "Processamento de linguagem natural",
-        "Internet das Coisas (IoT)",
-        "Análise comportamental",
-        "Engenharia de dados",
-        "Interoperabilidade digital",
-        "Infraestrutura em nuvem",
-        "Blockchain",
-        "Tokenização",
-        "Realidade aumentada",
-        "Cibersegurança"
-    ]
-else:
-    pesquisas = list_palavras
+        if pesquisas is not None:
+            for nome in pesquisas:
+                search_box = driver.find_element(By.NAME, "q")
+                search_box.clear()
+                search_box.send_keys(str(nome))
+                search_box.submit()
+                aceitar_cookies(driver)
+                sleep(10)
+        else:
+            raise Exception('Erro ao percorrer lista de palavras.')  
+    except Exception as e:
+        logging.critical(f'Erro ao executar processo!\n {e}')
+    finally:
+        driver.quit()
 
-if pesquisas is not None:
-    for nome in pesquisas:
-        search_box = driver.find_element(By.NAME, "q")
-        search_box.clear()
-        search_box.send_keys(str(nome))
-        search_box.submit()
-        aceitar_cookies(driver)
-        sleep(10)
-else:
-    print("Não há nada para pesquisar")
-
-driver.quit()
+if __name__ == '__main__':
+    main()
